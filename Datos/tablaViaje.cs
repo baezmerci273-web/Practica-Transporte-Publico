@@ -20,5 +20,6 @@ namespace Datos
         public DateTime HoraSalida { get; set; }
         public DateTime HoraLlegada { get; set; }
         public string estado { get; set; } = string.Empty;
+        public int CantidadPasajeros { get; set; }
     }
 }
