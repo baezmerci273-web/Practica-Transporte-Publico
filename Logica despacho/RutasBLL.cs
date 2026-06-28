@@ -12,12 +12,12 @@ namespace Negocios
             if (string.IsNullOrEmpty(r.Nombre) ||
                 string.IsNullOrEmpty(r.Salida) ||
                 string.IsNullOrEmpty(r.Llegada) ||
-                (r.DistanciaKm) <0.0||(r.Estado==null))
+                (r.DistanciaKm) <=0.0)
             {
                 return "Error: Todos los campos son obligatorios";
             }
             bool ok=_dal.Insertar(r);
-            return ok ? "Estudiantes Registrados Exitosamente" : "Error:No se pudo guardar en base de datos,";
+            return ok ? "Ruta Registrada Exitosamente" : "Error:No se pudo guardar en base de datos,";
         }
 
         public List<Rutas> ObtenerTodos()

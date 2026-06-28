@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Logica_despacho
+namespace Negocios
 {
     public class ChoferBLL
     {
@@ -17,8 +17,8 @@ namespace Logica_despacho
                 string.IsNullOrEmpty(c.Apellido) ||
                 string.IsNullOrEmpty(c.Cedula) ||
                 string.IsNullOrEmpty(c.Licencia) ||
-                string.IsNullOrEmpty(c.telefono) ||
-                (c.estado == null))
+                string.IsNullOrEmpty(c.telefono)
+                )
             {
                 return "Error: Todos los campos son obligatorios";
             }
@@ -30,7 +30,7 @@ namespace Logica_despacho
 
 
             bool ok = _dal.Insertar1(c);
-            return ok ? "Estudiantes Registrados Exitosamente" : "Error:No se pudo guardar en base de datos,";
+            return ok ? "Chofer Registrado Exitosamente" : "Error:No se pudo guardar en base de datos,";
         }
 
         public List<chofer> ObtenerTodos()

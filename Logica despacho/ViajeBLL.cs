@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Logica_despacho
+namespace Negocios
 {
     public class ViajeBLL
     {
@@ -18,13 +18,27 @@ namespace Logica_despacho
                 (viaje.IdChofer<=0) ||
                 (viaje.idVehiculo<=0) ||
                 viaje.HoraSalida==default ||
-               (viaje.CantidadPasajeros <= 0) || (viaje.estado == null))
+               (viaje.CantidadPasajeros <0) || string.IsNullOrEmpty (viaje.estado))
             {
                 return "Error: Todos los campos son obligatorios";
             }
+
+            if (viaje.HoraSalida< DateTime.Now)
+            {
+                return "Error: Ingrese una fecha futura.";
+            }
+
+            if (viaje.HoraLlegada<= viaje.HoraSalida)
+            {
+                return "Error: Debe ingresar una fecha valida";
+            }
             bool ok = _dal.Insertar2(viaje);
-            return ok ? "Estudiantes Registrados Exitosamente" : "Error:No se pudo guardar en base de datos,";
+            return ok ? "Viaje Registrado Exitosamente" : "Error:No se pudo guardar en base de datos,";
         }
 
+        public List<Viaje> ObtenerTodos()
+        {
+            return _dal.ObtenerTodos2();
+        }
     }
 }

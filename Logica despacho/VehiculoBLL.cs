@@ -17,14 +17,18 @@ namespace Negocios
             if (string.IsNullOrEmpty(v.Placa) ||
                 string.IsNullOrEmpty(v.Marca) ||
                 string.IsNullOrEmpty(v.Modelo) ||
-                (v.Anio) <=0 || 
-               (v.capacidad<=0)||(v.estado == null))
+                (v.Anio) <=1800 || 
+               (v.capacidad<=0))
             {
                 return "Error: Todos los campos son obligatorios";
             }
             bool ok = _dal.Insertar2(v);
-            return ok ? "Estudiantes Registrados Exitosamente" : "Error:No se pudo guardar en base de datos,";
+            return ok ? "Vehiculo Registrado Exitosamente" : "Error:No se pudo guardar en base de datos,";
+        }
+        public List<Vehiculo> ObtenerTodos()
+        {
+            return _dal.ObtenerTodos2();
         }
 
-    }
+    }    
 }
