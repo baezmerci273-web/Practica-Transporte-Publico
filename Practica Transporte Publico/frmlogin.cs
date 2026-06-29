@@ -1,4 +1,4 @@
-﻿using Practica_Transporte_Publico;
+﻿using Practica_Transporte_Publicoui;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,7 +17,22 @@ namespace Practica_Transporte_Publicoui
         public frmlogin()
         {
             InitializeComponent();
-            ApplicationConfiguration.Initialize();
+
+        }
+
+        private void lblTitulo_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnVehiculo_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnChofer_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
