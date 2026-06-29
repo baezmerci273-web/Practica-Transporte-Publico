@@ -33,8 +33,25 @@ namespace Datos
 
 
             }
-        }  
-
+        }
+        public bool Eliminar(int idRutas)
+        {
+            try
+            {
+                using (var con = Conexion.ObtenerConextion())
+                using (var cmd = new SqlCommand("DELETE FROM Rutas WHERE idRutas = @IdRutas", con))
+                {
+                    cmd.Parameters.AddWithValue("@IdRutas", idRutas);
+                    int filas = cmd.ExecuteNonQuery();
+                    return filas > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException($"Error al eliminar ruta: {ex.Message}");
+                return false;
+            }
+        }
         public List<Rutas> ObtenerTodos()
         {
             try

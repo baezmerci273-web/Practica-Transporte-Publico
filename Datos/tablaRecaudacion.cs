@@ -15,5 +15,20 @@ namespace Datos
         public int CantidadPasajero { get; set; }
         public DateTime Fecha { get; set; }
 
+
+
+        // Constructor vacío
+        public Recaudacion() { }
+
+        // Constructor completo (solo FK, sin navegación)
+        public Recaudacion(int idRecaudacion, int idViaje,
+                           int montoTotal, int cantidadPasajero, DateTime fecha)
+        {
+            IdRecaudacion = idRecaudacion;
+            IdViaje = idViaje;
+            MontoTotal = montoTotal;
+            CantidadPasajero = cantidadPasajero;
+            Fecha = fecha;
+        }
     }
 }

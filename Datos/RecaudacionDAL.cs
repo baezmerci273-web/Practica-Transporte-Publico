@@ -32,7 +32,24 @@ namespace Capa_Datos
                 return false;
             }
         }
-
+        public bool Eliminar(int idRecaudacion)
+        {
+            try
+            {
+                using (var con = Conexion.ObtenerConextion())
+                using (var cmd = new SqlCommand("DELETE FROM Recaudacion WHERE idRecaudacion = @IdRecaudacion", con))
+                {
+                    cmd.Parameters.AddWithValue("@IdRecaudacion", idRecaudacion);
+                    int filas = cmd.ExecuteNonQuery();
+                    return filas > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException($"Error al eliminar recaudacion: {ex.Message}");
+                return false;
+            }
+        }
         public List<Recaudacion> ObtenerTodos2()
         {
             var lista = new List<Recaudacion>();

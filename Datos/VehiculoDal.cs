@@ -15,7 +15,7 @@ namespace Capa_Datos
             try
             {
                 using (var con = Conexion.ObtenerConextion())
-                using (var cmd = new SqlCommand(@"INSERT INTO RUTAS (nombre,salida,llegada,distanciaKM,estado) VALUES(@Nombre,@Salida,@Llegada,@Distancia,@Estado)", con))
+                using (var cmd = new SqlCommand(@"INSERT INTO VEHICULO (nombre,salida,llegada,distanciaKM,estado) VALUES(@placa,@marca,@modelo,@anio,@capacidad,@Estado)", con))
                 {
                     cmd.Parameters.AddWithValue("@placa", v.Placa);
                     cmd.Parameters.AddWithValue("@marca", v.Marca);
@@ -36,7 +36,24 @@ namespace Capa_Datos
 
         }
 
-
+        public bool Eliminar(int idVehiculo)
+        {
+            try
+            {
+                using (var con = Conexion.ObtenerConextion())
+                using (var cmd = new SqlCommand("DELETE FROM Vehiculo WHERE idVehiculo = @IdVehiculo", con))
+                {
+                    cmd.Parameters.AddWithValue("@IdVehiculo", idVehiculo);
+                    int filas = cmd.ExecuteNonQuery();
+                    return filas > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException($"Error al eliminar vehiculo: {ex.Message}");
+                return false;
+            }
+        }
         public List<Vehiculo> ObtenerTodos2()
         {
             try

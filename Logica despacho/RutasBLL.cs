@@ -22,6 +22,29 @@ namespace Negocios
             bool ok=_dal.Insertar(r);
             return ok ? "Ruta Registrada Exitosamente" : "Error:No se pudo guardar en base de datos,";
         }
+
+        public List<Rutas> Buscar(List<Rutas> lista, string valor)
+        {
+            bool esNumero = double.TryParse(valor, out double distancia);
+
+            return lista.FindAll(r =>
+                r.Nombre.Contains(valor, StringComparison.OrdinalIgnoreCase) ||
+                r.Salida.Contains(valor, StringComparison.OrdinalIgnoreCase) ||
+                r.Llegada.Contains(valor, StringComparison.OrdinalIgnoreCase) ||
+                (esNumero && r.DistanciaKm == distancia)
+            );
+        }
+
+        public string Eliminar(int idRutas)
+        {
+            if (idRutas <= 0)
+                return "Error: Ruta no válida.";
+
+            bool ok = _dal.Eliminar(idRutas);
+            return ok ? "Ruta eliminada exitosamente"
+                      : "Error: No se pudo eliminar la ruta.";
+        }
+
         public Predicate<Rutas> ObtenerSoloActivas()
         {
             return r => r.Estado == true;

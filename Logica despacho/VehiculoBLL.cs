@@ -26,6 +26,29 @@ namespace Negocios
             return ok ? "Vehiculo Registrado Exitosamente" : "Error:No se pudo guardar en base de datos,";
         }
 
+        public List<Vehiculo> Buscar(List<Vehiculo> lista, string valor)
+        {
+            bool esNumero = int.TryParse(valor, out int numero);
+
+            return lista.FindAll(v =>
+                v.Placa.Contains(valor, StringComparison.OrdinalIgnoreCase) ||
+                v.Marca.Contains(valor, StringComparison.OrdinalIgnoreCase) ||
+                v.Modelo.Contains(valor, StringComparison.OrdinalIgnoreCase) ||
+                (esNumero && v.Anio == numero) ||
+                (esNumero && v.Capacidad == numero)
+            );
+        }
+
+        public string Eliminar(int idVehiculo)
+        {
+            if (idVehiculo <= 0)
+                return "Error: Vehiculo no válido.";
+
+            bool ok = _dal.Eliminar(idVehiculo);
+            return ok ? "Vehiculo eliminado exitosamente"
+                      : "Error: No se pudo eliminar el vehiculo.";
+        }
+
         public abstract class VehiculoTransporteBLL  //clase y metodos abstractos
         {
             public abstract string TipoTransporte();

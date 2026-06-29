@@ -27,6 +27,31 @@ namespace Negocios
             return ok ? "Recaudacion Registrada Exitosamente" : "Error:No se pudo guardar en base de datos,";
         }
 
+        public List<Recaudacion> Buscar(List<Recaudacion> lista, string valor)
+        {
+            // Intentamos convertir el valor a número para comparar contra
+            // IdViaje, MontoTotal y CantidadPasajero
+            bool esNumero = int.TryParse(valor, out int numero);
+
+            // Intentamos convertir el valor a fecha para comparar contra Fecha
+            bool esFecha = DateTime.TryParse(valor, out DateTime fecha);
+
+            return lista.FindAll(r =>
+                (esNumero && r.IdViaje == numero) ||
+                (esNumero && r.MontoTotal == numero) ||
+                (esNumero && r.CantidadPasajero == numero) ||
+                (esFecha && r.Fecha.Date == fecha.Date)
+            );
+        }
+        public string Eliminar(int idRecaudacion)
+        {
+            if (idRecaudacion <= 0)
+                return "Error: Recaudacion no válida.";
+
+            bool ok = _dal.Eliminar(idRecaudacion);
+            return ok ? "Recaudacion eliminada exitosamente"
+                      : "Error: No se pudo eliminar la recaudacion.";
+        }
         public virtual double CalcularRecaudacion(Recaudacion re)
         {
             return re.MontoTotal;

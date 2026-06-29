@@ -1,4 +1,6 @@
-namespace Practica_Transporte_Publico
+using Practica_Transporte_Publico;
+
+namespace Practica_Transporte_Publicoui
 {
     internal static class Program
     {
@@ -11,7 +13,7 @@ namespace Practica_Transporte_Publico
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new Principal());
+            Application.Run(new frmlogin());
         }
     }
 }

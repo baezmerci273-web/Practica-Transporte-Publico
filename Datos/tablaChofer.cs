@@ -13,7 +13,22 @@ namespace Datos
         public string Apellido { get; set; } = string.Empty;
         public string Cedula { get; set; } = string.Empty;
         public string Licencia { get; set; } = string.Empty;
-        public string telefono { get; set; } = string.Empty;
-        public bool estado { get; set; } = true;
-    }
-}
+        public string Telefono { get; set; } = string.Empty;
+        public bool Estado { get; set; } = true;
+    
+
+    public chofer() { }
+
+        // Constructor completo
+        public chofer(int idChofer, string nombre, string apellido, string cedula,
+                      string licencia, string telefono, bool estado)
+        {
+            IdChofer = idChofer;
+            Nombre = nombre;
+            Apellido = apellido;
+            Cedula = cedula;
+            Licencia = licencia;
+            Telefono = telefono;
+            Estado = estado;
+        }
+}   }

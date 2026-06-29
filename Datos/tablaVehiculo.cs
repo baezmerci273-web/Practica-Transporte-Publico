@@ -16,7 +16,18 @@ namespace Datos
         public int Capacidad { get; set; } = 0;
         public bool Estado { get; set; } = true;
 
-    
+        public Vehiculo() { }
 
-     
+        // Constructor completo
+        public Vehiculo(int idVehiculo, string placa, string marca,
+                        string modelo, int anio, int capacidad, bool estado)
+        {
+            IdVehiculo = idVehiculo;
+            Placa = placa;
+            Marca = marca;
+            Modelo = modelo;
+            Anio = anio;
+            Capacidad = capacidad;
+            Estado = estado;
+        }
 }   }

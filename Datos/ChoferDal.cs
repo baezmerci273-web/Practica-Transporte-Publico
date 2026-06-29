@@ -19,8 +19,8 @@ namespace Datos
                     cmd.Parameters.AddWithValue("@Apellido", C.Apellido);
                     cmd.Parameters.AddWithValue("@Cedula", C.Cedula);
                     cmd.Parameters.AddWithValue("@Licencia", C.Licencia);
-                    cmd.Parameters.AddWithValue("@Telefono", C.telefono);
-                    cmd.Parameters.AddWithValue("@Estado", C.estado);
+                    cmd.Parameters.AddWithValue("@Telefono", C.Telefono);
+                    cmd.Parameters.AddWithValue("@Estado", C.Estado);
                     int filas = cmd.ExecuteNonQuery();
                     return filas > 0;
                 }
@@ -32,7 +32,24 @@ namespace Datos
             }
         }
 
-
+        public bool Eliminar(int idChofer)
+        {
+            try
+            {
+                using (var con = Conexion.ObtenerConextion())
+                using (var cmd = new SqlCommand("DELETE FROM Chofer WHERE idChofer = @IdChofer", con))
+                {
+                    cmd.Parameters.AddWithValue("@IdChofer", idChofer);
+                    int filas = cmd.ExecuteNonQuery();
+                    return filas > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException($"Error: {ex.Message}");
+                return false;
+            }
+        }
 
         public List<chofer> obtener()
         {
@@ -54,8 +71,8 @@ namespace Datos
                             Apellido = reader.GetString(2),
                             Cedula = reader.GetString(3),
                             Licencia = reader.GetString(4),
-                            telefono = reader.GetString(5),
-                            estado = reader.GetBoolean(6)
+                            Telefono = reader.GetString(5),
+                            Estado = reader.GetBoolean(6)
                         });
 
 

@@ -17,7 +17,7 @@ namespace Negocios
                 string.IsNullOrEmpty(c.Apellido) ||
                 string.IsNullOrEmpty(c.Cedula) ||
                 string.IsNullOrEmpty(c.Licencia) ||
-                string.IsNullOrEmpty(c.telefono)
+                string.IsNullOrEmpty(c.Telefono)
                 )
             {
                 return "Error: Todos los campos son obligatorios";
@@ -33,8 +33,25 @@ namespace Negocios
             return ok ? "Chofer Registrado Exitosamente" : "Error:No se pudo guardar en base de datos,";
         }
 
+        public List<chofer> Buscar(List<chofer> lista, string valor)
+        {
+            return lista.FindAll(c =>
+                c.Nombre.Contains(valor, StringComparison.OrdinalIgnoreCase) ||
+                c.Apellido.Contains(valor, StringComparison.OrdinalIgnoreCase) ||
+                c.Cedula.Contains(valor, StringComparison.OrdinalIgnoreCase) ||
+                c.Licencia.Contains(valor, StringComparison.OrdinalIgnoreCase)
+            );
+        }
 
+        public string Eliminar(int idChofer)
+        {
+            if (idChofer <= 0)
+                return "Error: Chofer no válido.";
 
+            bool ok = _dal.Eliminar(idChofer);
+            return ok ? "Chofer eliminado exitosamente"
+                      : "Error: No se pudo eliminar el chofer.";
+        }
         public List<chofer> ObtenerTodos()
         {
             return _dal.obtener();
