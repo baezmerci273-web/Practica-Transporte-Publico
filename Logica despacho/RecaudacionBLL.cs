@@ -32,22 +32,22 @@ namespace Negocios
             return re.MontoTotal;
         }
         public class RecaudacionPorCapacidadBLL : RecaudacionBLL
-        {
-            private readonly double _tarifaPorPasajero;
+{
+    private readonly double _tarifaPorPasajero;
 
-            public RecaudacionPorCapacidadBLL(double tarifaPorPasajero)
-            {
-                _tarifaPorPasajero = tarifaPorPasajero;
-            }
+    public RecaudacionPorCapacidadBLL(double tarifaPorPasajero)
+    {
+        _tarifaPorPasajero = tarifaPorPasajero;
+    }
 
-            public override double CalcularRecaudacion(Recaudacion re)
-            {
-                if (re.CantidadPasajero <= 0)
-                    return 0;
+    public override double CalcularRecaudacion(Recaudacion re)
+    {
+        if (re.CantidadPasajero <= 0)
+            return 0;
 
-                return re.CantidadPasajero * _tarifaPorPasajero;
-            }
-        }
+        return re.CantidadPasajero * _tarifaPorPasajero;
+    }
+}
         public List<Recaudacion> ObtenerTodos()
         {
             return _dal.ObtenerTodos2();

@@ -26,7 +26,7 @@ namespace Negocios
             return ok ? "Vehiculo Registrado Exitosamente" : "Error:No se pudo guardar en base de datos,";
         }
 
-        public abstract class VehiculoTransporteBLL
+        public abstract class VehiculoTransporteBLL  //clase y metodos abstractos
         {
             public abstract string TipoTransporte();
             public abstract double CalcularTarifa();

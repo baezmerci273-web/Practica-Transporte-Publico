@@ -37,7 +37,7 @@ namespace Negocios
         }
         public string RegistrarViaje(Viaje viaje)
         {
-            return Registrar(viaje); // reutiliza tu validación ya existente
+            return Registrar(viaje); // validacion de arriba
         }
 
         public string AsignarChofer(Viaje viaje, int idChofer)

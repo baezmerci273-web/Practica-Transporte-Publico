@@ -6,51 +6,69 @@ namespace Datos
 {
     public class ChoferDAL
     {
+
+
         public bool Insertar1(chofer C)
         {
-            using (var con = Conexion.ObtenerConextion())
-            using (var cmd = new SqlCommand(@"INSERT INTO RUTAS (nombre,apellido,cedula,licencia,telefono,estado) VALUES(@Nombre,@Apellido,@Cedula,@Licencia,@Telefono,@Estado)", con))
+            try
             {
-                cmd.Parameters.AddWithValue("@Nombre", C.Nombre);
-                cmd.Parameters.AddWithValue("@Apellido", C.Apellido);
-                cmd.Parameters.AddWithValue("@Cedula", C.Cedula);
-                cmd.Parameters.AddWithValue("@Licencia", C.Licencia);
-                cmd.Parameters.AddWithValue("@Telefono", C.telefono);
-                cmd.Parameters.AddWithValue("@Estado", C.estado);
-
-                int filas = cmd.ExecuteNonQuery();
-                return filas > 0;
+                using (var con = Conexion.ObtenerConextion())
+                using (var cmd = new SqlCommand(@"INSERT INTO Chofer (nombre,apellido,cedula,licencia,telefono,estado) VALUES(@Nombre,@Apellido,@Cedula,@Licencia,@Telefono,@Estado)", con))
+                {
+                    cmd.Parameters.AddWithValue("@Nombre", C.Nombre);
+                    cmd.Parameters.AddWithValue("@Apellido", C.Apellido);
+                    cmd.Parameters.AddWithValue("@Cedula", C.Cedula);
+                    cmd.Parameters.AddWithValue("@Licencia", C.Licencia);
+                    cmd.Parameters.AddWithValue("@Telefono", C.telefono);
+                    cmd.Parameters.AddWithValue("@Estado", C.estado);
+                    int filas = cmd.ExecuteNonQuery();
+                    return filas > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException($"Error: {ex.Message}");
+                return false;
             }
         }
+
+
 
         public List<chofer> obtener()
         {
-            var lista = new List<chofer>();
 
-            using (var con = Conexion.ObtenerConextion())
-            using (var cmd = new SqlCommand("SELECT idChofer,nombre,apellido,cedula,licencia,telefono,estado FROM Chofer", con))
-            using (var reader = cmd.ExecuteReader())
+            try
             {
-                while (reader.Read())
+                var lista = new List<chofer>();
+
+                using (var con = Conexion.ObtenerConextion())
+                using (var cmd = new SqlCommand("SELECT idChofer,nombre,apellido,cedula,licencia,telefono,estado FROM Chofer", con))
+                using (var reader = cmd.ExecuteReader())
                 {
-                    lista.Add(new chofer
+                    while (reader.Read())
                     {
-                        IdChofer = reader.GetInt32(0),
-                        Nombre = reader.GetString(1),
-                        Apellido = reader.GetString(2),
-                        Cedula = reader.GetString(3),
-                        Licencia = reader.GetString(4),
-                        telefono = reader.GetString(5),
-                        estado = reader.GetBoolean(6)
-                    });
+                        lista.Add(new chofer
+                        {
+                            IdChofer = reader.GetInt32(0),
+                            Nombre = reader.GetString(1),
+                            Apellido = reader.GetString(2),
+                            Cedula = reader.GetString(3),
+                            Licencia = reader.GetString(4),
+                            telefono = reader.GetString(5),
+                            estado = reader.GetBoolean(6)
+                        });
 
 
 
+                    }
                 }
+                return lista;
+
+
             }
-            return lista;
-
-
-        }
-    }
-}
+            catch(Exception ex) 
+            {
+                throw new ArgumentException($"Error: {ex.Message}");
+            }
+            }
+ }      }

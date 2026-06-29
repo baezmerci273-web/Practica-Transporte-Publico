@@ -15,9 +15,9 @@ namespace Datos
         public double DistanciaKm { get; set; } = 0.0;
         public bool Estado { get; set; } = true;
         public bool TieneAC { get; set; } = false;
-    
 
-     public Rutas(string codigo, bool tieneAC)
+        public Rutas() { }
+        public Rutas(string codigo, bool tieneAC)
         {
             Nombre = codigo;
             TieneAC = tieneAC;
