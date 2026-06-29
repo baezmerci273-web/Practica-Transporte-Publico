@@ -13,8 +13,10 @@ namespace Datos
         public string Marca { get; set; } = string.Empty;
         public string Modelo { get; set; } = string.Empty;
         public int Anio { get; set; } = 0;
-        public int capacidad { get; set; } = 0;
-        public bool estado { get; set; } = true;
+        public int Capacidad { get; set; } = 0;
+        public bool Estado { get; set; } = true;
 
-    }
-}
+    
+
+     
+}   }

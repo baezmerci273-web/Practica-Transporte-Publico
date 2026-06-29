@@ -19,8 +19,8 @@ namespace Capa_Datos
                 cmd.Parameters.AddWithValue("@marca", v.Marca);
                 cmd.Parameters.AddWithValue("@modelo", v.Modelo);
                 cmd.Parameters.AddWithValue("@anio", v.Anio);
-                cmd.Parameters.AddWithValue("@capacidad", v.capacidad);
-                cmd.Parameters.AddWithValue("@Estado", v.estado);
+                cmd.Parameters.AddWithValue("@capacidad", v.Capacidad);
+                cmd.Parameters.AddWithValue("@Estado", v.Estado);
 
                 int filas = cmd.ExecuteNonQuery();
                 return filas > 0;
@@ -44,8 +44,8 @@ namespace Capa_Datos
                         Marca = reader.GetString(2),
                         Modelo = reader.GetString(3),
                         Anio = reader.GetInt32(4),
-                        capacidad = reader.GetInt32(5),
-                        estado = reader.GetBoolean(6)
+                        Capacidad = reader.GetInt32(5),
+                        Estado = reader.GetBoolean(6)
                     });
 
 

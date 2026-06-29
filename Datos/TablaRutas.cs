@@ -14,12 +14,27 @@ namespace Datos
         public string Llegada { get; set; } = string.Empty;
         public double DistanciaKm { get; set; } = 0.0;
         public bool Estado { get; set; } = true;
-    }
-
+        public bool TieneAC { get; set; } = false;
     
 
-   
+     public Rutas(string codigo, bool tieneAC)
+        {
+            Nombre = codigo;
+            TieneAC = tieneAC;
+            Estado = true;
+        }
 
-    
-    
-}
+        public Rutas(string codigo)
+        {
+            Nombre = codigo;
+            TieneAC = false;
+            Estado = true;
+        }
+
+
+
+
+
+
+
+}   }

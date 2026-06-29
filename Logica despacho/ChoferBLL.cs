@@ -33,6 +33,8 @@ namespace Negocios
             return ok ? "Chofer Registrado Exitosamente" : "Error:No se pudo guardar en base de datos,";
         }
 
+
+
         public List<chofer> ObtenerTodos()
         {
             return _dal.obtener();

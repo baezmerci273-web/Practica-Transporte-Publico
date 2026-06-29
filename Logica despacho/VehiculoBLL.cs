@@ -18,13 +18,34 @@ namespace Negocios
                 string.IsNullOrEmpty(v.Marca) ||
                 string.IsNullOrEmpty(v.Modelo) ||
                 (v.Anio) <=1800 || 
-               (v.capacidad<=0))
+               (v.Capacidad<=0))
             {
                 return "Error: Todos los campos son obligatorios";
             }
             bool ok = _dal.Insertar2(v);
             return ok ? "Vehiculo Registrado Exitosamente" : "Error:No se pudo guardar en base de datos,";
         }
+
+        public abstract class VehiculoTransporteBLL
+        {
+            public abstract string TipoTransporte();
+            public abstract double CalcularTarifa();
+
+            
+        }
+        public class Guagua : VehiculoTransporteBLL
+        {
+            public override string TipoTransporte() => "Guagua";
+            public override double CalcularTarifa() => 135.0;
+        }
+        public class Voladorcito : VehiculoTransporteBLL
+        {
+            public override string TipoTransporte() => "Voladorcito";
+            public override double CalcularTarifa() => 75.0;
+        }
+
+
+
         public List<Vehiculo> ObtenerTodos()
         {
             return _dal.ObtenerTodos2();
