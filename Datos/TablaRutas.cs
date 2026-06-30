@@ -17,11 +17,16 @@ namespace Datos
         public bool TieneAC { get; set; } = false;
 
         public Rutas() { }
-        public Rutas(string codigo, bool tieneAC)
+        public Rutas(string codigo, bool tieneAC, int id, string salida, string llegada, double Distancia)
         {
             Nombre = codigo;
             TieneAC = tieneAC;
             Estado = true;
+            IdRutas = id;
+            Salida=salida;
+            Llegada=llegada;
+            DistanciaKm = Distancia;
+
         }
 
         public Rutas(string codigo)

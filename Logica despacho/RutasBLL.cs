@@ -49,7 +49,16 @@ namespace Negocios
         {
             return r => r.Estado == true;
         }
+        public string CambiarEstado(int idRutas, bool nuevoEstado)
+        {
+            if (idRutas <= 0)
+                return "Error: Ruta no válida.";
 
+            bool ok = _dal.CambiarEstado(idRutas, nuevoEstado);
+            string accion = nuevoEstado ? "activada" : "desactivada";
+            return ok ? $"Ruta {accion} exitosamente"
+                      : "Error: No se pudo cambiar el estado.";
+        }
 
         public List<Rutas> ObtenerTodos()
         {

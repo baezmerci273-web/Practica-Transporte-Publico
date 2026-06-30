@@ -58,6 +58,7 @@
             btnRutas.TabIndex = 1;
             btnRutas.Text = "Rutas";
             btnRutas.UseVisualStyleBackColor = false;
+            btnRutas.Click += btnRutas_Click;
             // 
             // btnChofer
             // 

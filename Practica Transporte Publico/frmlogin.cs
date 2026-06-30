@@ -34,5 +34,11 @@ namespace Practica_Transporte_Publicoui
         {
 
         }
+
+        private void btnRutas_Click(object sender, EventArgs e)
+        {
+            frmRutas frmRutas = new frmRutas();
+            frmRutas.Show();
+        }
     }
 }

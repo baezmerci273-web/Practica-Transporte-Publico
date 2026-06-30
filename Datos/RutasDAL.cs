@@ -12,7 +12,7 @@ namespace Datos
             try
             {
                 using (var con = Conexion.ObtenerConextion())
-                using (var cmd = new SqlCommand(@"INSERT INTO RUTAS (nombre,salida,llegada,distanciaKM,estado,tieneAC) VALUES(@Nombre,@Salida,@Llegada,@Distancia,@Estado,@TieneAC)", con))
+                using (var cmd = new SqlCommand(@"INSERT INTO RUTAS (nombre,salida,llegada,distanciaKM,estado,tieneAC) VALUES(@Nombre,@Salida,@Llegada,@DistanciaKM,@Estado,@TieneAC)", con))
                 {
                     cmd.Parameters.AddWithValue("@Nombre", R.Nombre);
                     cmd.Parameters.AddWithValue("@Salida", R.Salida);
@@ -50,6 +50,25 @@ namespace Datos
             {
                 throw new ArgumentException($"Error al eliminar ruta: {ex.Message}");
                 return false;
+            }
+        }
+
+        public bool CambiarEstado(int idRutas, bool nuevoEstado)
+        {
+            try
+            {
+                using (var con = Conexion.ObtenerConextion())
+                using (var cmd = new SqlCommand("UPDATE Rutas SET estado = @Estado WHERE idRutas = @IdRutas", con))
+                {
+                    cmd.Parameters.AddWithValue("@Estado", nuevoEstado);
+                    cmd.Parameters.AddWithValue("@IdRutas", idRutas);
+                    int filas = cmd.ExecuteNonQuery();
+                    return filas > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException($"Error al cambiar estado: {ex.Message}");
             }
         }
         public List<Rutas> ObtenerTodos()
