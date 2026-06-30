@@ -28,7 +28,7 @@ namespace Datos
             catch (Exception ex)
             {
                 throw new ArgumentException($"Error al insertar ruta: {ex.Message}");
-                return false;
+                
 
 
 
@@ -49,7 +49,7 @@ namespace Datos
             catch (Exception ex)
             {
                 throw new ArgumentException($"Error al eliminar ruta: {ex.Message}");
-                return false;
+                
             }
         }
 
@@ -89,7 +89,7 @@ namespace Datos
                             Nombre = reader.GetString(1),
                             Salida = reader.GetString(2),
                             Llegada = reader.GetString(3),
-                            DistanciaKm = reader.GetInt32(4),
+                            DistanciaKm = (double)reader.GetDecimal(4),
                             Estado = reader.GetBoolean(5),
                             TieneAC = reader.GetBoolean(6)
                         });

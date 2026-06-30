@@ -39,13 +39,19 @@
             lblDistancia = new Label();
             txtDistancia = new TextBox();
             chkTieneAC = new CheckBox();
-            btnEliminar = new Button();
             btnRegistrar = new Button();
             btnLimpiar = new Button();
             txtBuscar = new TextBox();
             dgvTabla = new DataGridView();
-            cmbTipo = new ComboBox();
-            checkBox1 = new CheckBox();
+            colid = new DataGridViewTextBoxColumn();
+            colNombre = new DataGridViewTextBoxColumn();
+            colSalida = new DataGridViewTextBoxColumn();
+            colLlegada = new DataGridViewTextBoxColumn();
+            colDistancia = new DataGridViewTextBoxColumn();
+            colTieneAC = new DataGridViewTextBoxColumn();
+            colEliminar = new DataGridViewButtonColumn();
+            ColEstado = new DataGridViewButtonColumn();
+            chkActivas = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)dgvTabla).BeginInit();
             SuspendLayout();
             // 
@@ -139,18 +145,6 @@
             chkTieneAC.Text = "Tiene AC";
             chkTieneAC.UseVisualStyleBackColor = false;
             // 
-            // btnEliminar
-            // 
-            btnEliminar.BackColor = SystemColors.ControlLightLight;
-            btnEliminar.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnEliminar.Location = new Point(128, 390);
-            btnEliminar.Name = "btnEliminar";
-            btnEliminar.Size = new Size(95, 37);
-            btnEliminar.TabIndex = 10;
-            btnEliminar.Text = "Eliminar";
-            btnEliminar.UseVisualStyleBackColor = false;
-            btnEliminar.Click += BtnEliminar_Click;
-            // 
             // btnRegistrar
             // 
             btnRegistrar.BackColor = SystemColors.Highlight;
@@ -171,7 +165,7 @@
             btnLimpiar.BackgroundImageLayout = ImageLayout.Center;
             btnLimpiar.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnLimpiar.ForeColor = SystemColors.ControlLightLight;
-            btnLimpiar.Location = new Point(249, 390);
+            btnLimpiar.Location = new Point(144, 390);
             btnLimpiar.Name = "btnLimpiar";
             btnLimpiar.Size = new Size(98, 37);
             btnLimpiar.TabIndex = 12;
@@ -189,31 +183,95 @@
             // 
             // dgvTabla
             // 
+            dgvTabla.BackgroundColor = SystemColors.ScrollBar;
             dgvTabla.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvTabla.Location = new Point(366, 86);
+            dgvTabla.Columns.AddRange(new DataGridViewColumn[] { colid, colNombre, colSalida, colLlegada, colDistancia, colTieneAC, colEliminar, ColEstado });
+            dgvTabla.GridColor = SystemColors.Menu;
+            dgvTabla.Location = new Point(400, 99);
             dgvTabla.Name = "dgvTabla";
             dgvTabla.RowHeadersWidth = 51;
-            dgvTabla.Size = new Size(422, 245);
+            dgvTabla.Size = new Size(1041, 221);
             dgvTabla.TabIndex = 15;
             // 
-            // cmbTipo
+            // colid
             // 
-            cmbTipo.FormattingEnabled = true;
-            cmbTipo.Items.AddRange(new object[] { "Todas", "", "Activas", "", "Inactivas" });
-            cmbTipo.Location = new Point(672, 34);
-            cmbTipo.Name = "cmbTipo";
-            cmbTipo.Size = new Size(103, 28);
-            cmbTipo.TabIndex = 16;
+            colid.DataPropertyName = "IdRutas";
+            colid.HeaderText = "ID";
+            colid.MinimumWidth = 6;
+            colid.Name = "colid";
+            colid.Width = 125;
             // 
-            // checkBox1
+            // colNombre
             // 
-            checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(128, 348);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(101, 24);
-            checkBox1.TabIndex = 17;
-            checkBox1.Text = "checkBox1";
-            checkBox1.UseVisualStyleBackColor = true;
+            colNombre.DataPropertyName = "Nombre";
+            colNombre.HeaderText = "Nombre";
+            colNombre.MinimumWidth = 6;
+            colNombre.Name = "colNombre";
+            colNombre.Width = 125;
+            // 
+            // colSalida
+            // 
+            colSalida.DataPropertyName = "Salida";
+            colSalida.HeaderText = "Salida";
+            colSalida.MinimumWidth = 6;
+            colSalida.Name = "colSalida";
+            colSalida.Width = 125;
+            // 
+            // colLlegada
+            // 
+            colLlegada.DataPropertyName = "Llegada";
+            colLlegada.HeaderText = "Llegada";
+            colLlegada.MinimumWidth = 6;
+            colLlegada.Name = "colLlegada";
+            colLlegada.Width = 125;
+            // 
+            // colDistancia
+            // 
+            colDistancia.DataPropertyName = "DistanciaKM";
+            colDistancia.HeaderText = "Distancia";
+            colDistancia.MinimumWidth = 6;
+            colDistancia.Name = "colDistancia";
+            colDistancia.Width = 125;
+            // 
+            // colTieneAC
+            // 
+            colTieneAC.DataPropertyName = "TieneAC";
+            colTieneAC.HeaderText = "TieneAC";
+            colTieneAC.MinimumWidth = 6;
+            colTieneAC.Name = "colTieneAC";
+            colTieneAC.Width = 125;
+            // 
+            // colEliminar
+            // 
+            colEliminar.HeaderText = "Eliminar";
+            colEliminar.MinimumWidth = 6;
+            colEliminar.Name = "colEliminar";
+            colEliminar.Resizable = DataGridViewTriState.True;
+            colEliminar.SortMode = DataGridViewColumnSortMode.Automatic;
+            colEliminar.Text = "Eliminar";
+            colEliminar.UseColumnTextForButtonValue = true;
+            colEliminar.Width = 125;
+            // 
+            // ColEstado
+            // 
+            ColEstado.DataPropertyName = "Estado";
+            ColEstado.HeaderText = "Estado";
+            ColEstado.MinimumWidth = 6;
+            ColEstado.Name = "ColEstado";
+            ColEstado.Resizable = DataGridViewTriState.True;
+            ColEstado.SortMode = DataGridViewColumnSortMode.Automatic;
+            ColEstado.Text = "Cambiar";
+            ColEstado.Width = 125;
+            // 
+            // chkActivas
+            // 
+            chkActivas.AutoSize = true;
+            chkActivas.Location = new Point(674, 36);
+            chkActivas.Name = "chkActivas";
+            chkActivas.Size = new Size(112, 24);
+            chkActivas.TabIndex = 17;
+            chkActivas.Text = "Solo Activas";
+            chkActivas.UseVisualStyleBackColor = true;
             // 
             // frmRutas
             // 
@@ -221,13 +279,11 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Menu;
             ClientSize = new Size(800, 450);
-            Controls.Add(checkBox1);
-            Controls.Add(cmbTipo);
+            Controls.Add(chkActivas);
             Controls.Add(dgvTabla);
             Controls.Add(txtBuscar);
             Controls.Add(btnLimpiar);
             Controls.Add(btnRegistrar);
-            Controls.Add(btnEliminar);
             Controls.Add(chkTieneAC);
             Controls.Add(txtDistancia);
             Controls.Add(lblDistancia);
@@ -246,24 +302,15 @@
             PerformLayout();
         }
 
-        private void BtnEliminar_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
 
-       
 
-        private void BtnBuscar_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
 
-        private void BtnLimpiar_Click1(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
 
-       
+
+
+
+
+
 
         #endregion
 
@@ -283,6 +330,14 @@
         private TextBox txtBuscar;
         private DataGridView dgvTabla;
         private ComboBox cmbTipo;
-        private CheckBox checkBox1;
+        private CheckBox chkActivas;
+        private DataGridViewTextBoxColumn colid;
+        private DataGridViewTextBoxColumn colNombre;
+        private DataGridViewTextBoxColumn colSalida;
+        private DataGridViewTextBoxColumn colLlegada;
+        private DataGridViewTextBoxColumn colDistancia;
+        private DataGridViewTextBoxColumn colTieneAC;
+        private DataGridViewButtonColumn colEliminar;
+        private DataGridViewButtonColumn ColEstado;
     }
 }

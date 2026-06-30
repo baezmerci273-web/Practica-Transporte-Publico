@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace Practica_Transporte_Publicoui
 
@@ -18,82 +19,90 @@ namespace Practica_Transporte_Publicoui
         public frmRutas()
         {
             InitializeComponent();
+            
+            dgvTabla.CellFormatting += dgvTabla_CellFormatting;
+            dgvTabla.CellClick += dgvTabla_CellClick;
+            txtBuscar.TextChanged += txtBuscar_TextChanged;
+            chkActivas.CheckedChanged += chkActivas_CheckedChanged;
         }
 
-        private RutasBLL _bll = new RutasBLL();
        
-        private List<Rutas> _todas = new List<Rutas>();  
-        private int _idSeleccionado = 0;
+        
+            private readonly RutasBLL _bll = new RutasBLL();
+            private List<Rutas> _todas = new List<Rutas>();
 
-        private void btnRegistrar_Click(object sender, EventArgs e)
+
+        private void frmRutas_Load(object sender, EventArgs e) 
         {
-            try
+            CargarDatos();
+        }
+
+
+        private void CargarDatos()
             {
-                Rutas r = new Rutas
+                _todas = _bll.ObtenerTodos();
+                dgvTabla.DataSource = chkActivas.Checked
+                    ? _bll.ObtenerActivas()
+                    : _todas;
+            }
+
+            private void txtBuscar_TextChanged(object sender, EventArgs e)
+            {
+                if (string.IsNullOrWhiteSpace(txtBuscar.Text))
+                    dgvTabla.DataSource = chkActivas.Checked ? _bll.ObtenerActivas() : _todas;
+                else
+                    dgvTabla.DataSource = _bll.Buscar(_todas, txtBuscar.Text);
+            }
+
+            private void chkActivas_CheckedChanged(object sender, EventArgs e)
+            {
+                dgvTabla.DataSource = chkActivas.Checked
+                    ? _bll.ObtenerActivas()
+                    : _todas;
+            }
+
+            private void btnRegistrar_Click(object sender, EventArgs e)
+            {
+                if (!int.TryParse(txtDistancia.Text, out int distancia))
+                {
+                    MessageBox.Show("Distancia inválida.");
+                    return;
+                }
+
+                var ruta = new Rutas
                 {
                     Nombre = txtNombre.Text,
                     Salida = txtSalida.Text,
                     Llegada = txtLlegada.Text,
-                    DistanciaKm = Convert.ToDouble(txtDistancia.Text),
-                    TieneAC = chkTieneAC.Checked,
-                    Estado = true
+                    DistanciaKm = distancia,
+                    Estado = true,
+                    TieneAC = chkTieneAC.Checked
                 };
 
-                string resultado = _bll.Registrar(r);
+                string resultado = _bll.Registrar(ruta);
                 MessageBox.Show(resultado);
 
-                if (resultado.Contains("Exitosamente"))
+                if (resultado.StartsWith("Ruta"))
                 {
-                   
-                    CargarDatos(); // refresca el DataGridView
+                    CargarDatos();
+                    BtnLimpiar_Click1(sender, e);
                 }
             }
-            catch (FormatException)
+
+            private void btnEliminar_Click(object sender, EventArgs e)
             {
-                MessageBox.Show("Error: La distancia debe ser un número válido.");
+                if (dgvTabla.CurrentRow == null)
+                {
+                    MessageBox.Show("Selecciona una ruta primero.");
+                    return;
+                }
+
+                var ruta = (Rutas)dgvTabla.CurrentRow.DataBoundItem;
+                string resultado = _bll.Eliminar(ruta.IdRutas);
+                MessageBox.Show(resultado);
+                CargarDatos();
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error inesperado: {ex.Message}");
-            }
-        }
-
-        private void txtBuscar_TextChanged(object sender, EventArgs e)
-        {
-            AplicarFiltros();
-        }
-
-        private void cmbEstado_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            AplicarFiltros();
-        }
-
-        private void AplicarFiltros()
-        {
-            // Paso 1: filtra por texto (o toma todas si está vacío)
-            List<Rutas> resultado = string.IsNullOrWhiteSpace(txtBuscar.Text)
-                ? _todas
-                : _bll.Buscar(_todas, txtBuscar.Text);
-
-            // Paso 2: filtra por estado según el ComboBox
-            switch (cmbTipo.SelectedItem?.ToString())
-            {
-                case "Activas":
-                    resultado = resultado.FindAll(r => r.Estado == true);
-                    
-                    break;
-                case "Inactivas":
-                    resultado = resultado.FindAll(r => r.Estado == false);
-
-                    break;
-                    // "Todas" no filtra nada
-            }
-
-            dgvTabla.DataSource = null;
-            dgvTabla.DataSource = resultado;
-        }
-
-        private void btnLimpiar_click1(object sender, EventArgs e)
+        private void BtnLimpiar_Click1(object sender, EventArgs e)
         {
             txtNombre.Clear();
             txtSalida.Clear();
@@ -101,19 +110,50 @@ namespace Practica_Transporte_Publicoui
             txtDistancia.Clear();
             chkTieneAC.Checked = false;
         }
-        
-        private void CargarDatos()
+       
+
+            private void dgvTabla_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+            {
+                if (e.RowIndex < 0) return;
+
+                var ruta = (Rutas)dgvTabla.Rows[e.RowIndex].DataBoundItem;
+                if (ruta == null) return;
+
+                if (dgvTabla.Columns[e.ColumnIndex].Name == "ColEstado")
+                {
+                    e.Value = ruta.Estado ? "Desactivar" : "Activar";
+                }
+                else if (dgvTabla.Columns[e.ColumnIndex].Name == "colTieneAC")
+                {
+                    e.Value = ruta.TieneAC ? "Sí" : "No";
+                }
+            }
+
+        private void dgvTabla_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            _todas=_bll.ObtenerTodos();
-            dgvTabla.DataSource = null;
-            dgvTabla.DataSource = _todas;
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
+
+            var col = dgvTabla.Columns[e.ColumnIndex];
+            var ruta = (Rutas)dgvTabla.Rows[e.RowIndex].DataBoundItem;
+
+            if (ruta == null) return; // por si la fila aún no tiene datos enlazados
+
+            if (col.Name == "ColEstado")
+            {
+                string resultado = _bll.CambiarEstado(ruta.IdRutas, !ruta.Estado);
+                MessageBox.Show(resultado);
+                CargarDatos();
+            }
+            else if (col.Name == "colEliminar")
+            {
+                string resultado = _bll.Eliminar(ruta.IdRutas);
+                MessageBox.Show(resultado);
+                CargarDatos();
+            }
         }
 
-        
-        
-        private void frmRutas_Load(object sender, EventArgs e)
-        {
-            CargarDatos();
-        }
+
     }
-}
+    }
+
+
