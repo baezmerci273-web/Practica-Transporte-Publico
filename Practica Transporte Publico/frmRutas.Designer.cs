@@ -48,6 +48,7 @@
             colSalida = new DataGridViewTextBoxColumn();
             colLlegada = new DataGridViewTextBoxColumn();
             colDistancia = new DataGridViewTextBoxColumn();
+            clFecha = new DataGridViewTextBoxColumn();
             colTieneAC = new DataGridViewTextBoxColumn();
             colEliminar = new DataGridViewButtonColumn();
             ColEstado = new DataGridViewButtonColumn();
@@ -148,6 +149,7 @@
             // btnRegistrar
             // 
             btnRegistrar.BackColor = SystemColors.Highlight;
+            btnRegistrar.Cursor = Cursors.Hand;
             btnRegistrar.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnRegistrar.ForeColor = SystemColors.ControlLightLight;
             btnRegistrar.ImageAlign = ContentAlignment.BottomCenter;
@@ -163,6 +165,7 @@
             // 
             btnLimpiar.BackColor = SystemColors.ActiveBorder;
             btnLimpiar.BackgroundImageLayout = ImageLayout.Center;
+            btnLimpiar.Cursor = Cursors.Hand;
             btnLimpiar.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnLimpiar.ForeColor = SystemColors.ControlLightLight;
             btnLimpiar.Location = new Point(144, 390);
@@ -183,9 +186,11 @@
             // 
             // dgvTabla
             // 
-            dgvTabla.BackgroundColor = SystemColors.ScrollBar;
+            dgvTabla.BackgroundColor = SystemColors.Window;
+            dgvTabla.CellBorderStyle = DataGridViewCellBorderStyle.Raised;
             dgvTabla.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvTabla.Columns.AddRange(new DataGridViewColumn[] { colid, colNombre, colSalida, colLlegada, colDistancia, colTieneAC, colEliminar, ColEstado });
+            dgvTabla.Columns.AddRange(new DataGridViewColumn[] { colid, colNombre, colSalida, colLlegada, colDistancia, clFecha, colTieneAC, colEliminar, ColEstado });
+            dgvTabla.Cursor = Cursors.Hand;
             dgvTabla.GridColor = SystemColors.Menu;
             dgvTabla.Location = new Point(400, 99);
             dgvTabla.Name = "dgvTabla";
@@ -228,10 +233,18 @@
             // colDistancia
             // 
             colDistancia.DataPropertyName = "DistanciaKM";
-            colDistancia.HeaderText = "Distancia";
+            colDistancia.HeaderText = "Distancia(KM)";
             colDistancia.MinimumWidth = 6;
             colDistancia.Name = "colDistancia";
             colDistancia.Width = 125;
+            // 
+            // clFecha
+            // 
+            clFecha.DataPropertyName = "Fecha";
+            clFecha.HeaderText = "Fecha";
+            clFecha.MinimumWidth = 6;
+            clFecha.Name = "clFecha";
+            clFecha.Width = 125;
             // 
             // colTieneAC
             // 
@@ -277,7 +290,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.Menu;
+            BackColor = SystemColors.MenuBar;
             ClientSize = new Size(800, 450);
             Controls.Add(chkActivas);
             Controls.Add(dgvTabla);
@@ -336,6 +349,7 @@
         private DataGridViewTextBoxColumn colSalida;
         private DataGridViewTextBoxColumn colLlegada;
         private DataGridViewTextBoxColumn colDistancia;
+        private DataGridViewTextBoxColumn clFecha;
         private DataGridViewTextBoxColumn colTieneAC;
         private DataGridViewButtonColumn colEliminar;
         private DataGridViewButtonColumn ColEstado;

@@ -12,7 +12,7 @@ namespace Datos
             try
             {
                 using (var con = Conexion.ObtenerConextion())
-                using (var cmd = new SqlCommand(@"INSERT INTO RUTAS (nombre,salida,llegada,distanciaKM,estado,tieneAC) VALUES(@Nombre,@Salida,@Llegada,@DistanciaKM,@Estado,@TieneAC)", con))
+                using (var cmd = new SqlCommand(@"INSERT INTO RUTAS (nombre,salida,llegada,distanciaKM,estado,fecha,tieneAC) VALUES(@Nombre,@Salida,@Llegada,@DistanciaKM,@Estado,@Fecha,@TieneAC)", con))
                 {
                     cmd.Parameters.AddWithValue("@Nombre", R.Nombre);
                     cmd.Parameters.AddWithValue("@Salida", R.Salida);
@@ -78,7 +78,7 @@ namespace Datos
                 var lista = new List<Rutas>();
 
                 using (var con = Conexion.ObtenerConextion())
-                using (var cmd = new SqlCommand("SELECT idRutas,nombre,salida,llegada,distanciaKM,Estado,tieneAC FROM Rutas", con))
+                using (var cmd = new SqlCommand("SELECT idRutas,nombre,salida,llegada,distanciaKM,Estado,fecha,tieneAC FROM Rutas", con))
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
@@ -91,7 +91,8 @@ namespace Datos
                             Llegada = reader.GetString(3),
                             DistanciaKm = (double)reader.GetDecimal(4),
                             Estado = reader.GetBoolean(5),
-                            TieneAC = reader.GetBoolean(6)
+                            Fecha=reader.GetDateTime(6),
+                            TieneAC = reader.GetBoolean(7)
                         });
 
 

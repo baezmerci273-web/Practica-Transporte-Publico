@@ -28,7 +28,7 @@ namespace Datos
             catch (Exception ex)
             {
                 throw new ArgumentException($"Error: {ex.Message}");
-                return false;
+                
             }
         }
 
@@ -51,6 +51,24 @@ namespace Datos
             }
         }
 
+        public bool CambiarEstado(int idChofer, bool nuevoEstado)
+        {
+            try
+            {
+                using (var con = Conexion.ObtenerConextion())
+                using (var cmd = new SqlCommand("UPDATE Chofer SET estado = @Estado WHERE idChofer = @IdChofer", con))
+                {
+                    cmd.Parameters.AddWithValue("@Estado", nuevoEstado);
+                    cmd.Parameters.AddWithValue("@IdChofer", idChofer);
+                    int filas = cmd.ExecuteNonQuery();
+                    return filas > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException($"Error: {ex.Message}");
+            }
+        }
         public List<chofer> obtener()
         {
 

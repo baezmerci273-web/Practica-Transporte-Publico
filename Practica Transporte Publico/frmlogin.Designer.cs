@@ -35,13 +35,14 @@
             btnRecaudacion = new Button();
             btnVehiculo = new Button();
             lblInformacion = new Label();
+            btnViaje = new Button();
             SuspendLayout();
             // 
             // lblTitulo
             // 
             lblTitulo.AutoSize = true;
             lblTitulo.Font = new Font("Microsoft YaHei", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblTitulo.Location = new Point(139, 36);
+            lblTitulo.Location = new Point(185, 36);
             lblTitulo.Name = "lblTitulo";
             lblTitulo.Size = new Size(439, 27);
             lblTitulo.TabIndex = 0;
@@ -52,7 +53,7 @@
             // 
             btnRutas.BackColor = SystemColors.ControlLightLight;
             btnRutas.Cursor = Cursors.Hand;
-            btnRutas.Location = new Point(301, 126);
+            btnRutas.Location = new Point(48, 156);
             btnRutas.Name = "btnRutas";
             btnRutas.Size = new Size(136, 56);
             btnRutas.TabIndex = 1;
@@ -63,7 +64,7 @@
             // btnChofer
             // 
             btnChofer.Cursor = Cursors.Hand;
-            btnChofer.Location = new Point(301, 201);
+            btnChofer.Location = new Point(206, 155);
             btnChofer.Name = "btnChofer";
             btnChofer.Size = new Size(136, 58);
             btnChofer.TabIndex = 2;
@@ -74,7 +75,7 @@
             // btnRecaudacion
             // 
             btnRecaudacion.Cursor = Cursors.Hand;
-            btnRecaudacion.Location = new Point(301, 278);
+            btnRecaudacion.Location = new Point(359, 154);
             btnRecaudacion.Name = "btnRecaudacion";
             btnRecaudacion.Size = new Size(136, 59);
             btnRecaudacion.TabIndex = 3;
@@ -84,7 +85,7 @@
             // btnVehiculo
             // 
             btnVehiculo.Cursor = Cursors.Hand;
-            btnVehiculo.Location = new Point(301, 357);
+            btnVehiculo.Location = new Point(512, 155);
             btnVehiculo.Name = "btnVehiculo";
             btnVehiculo.Size = new Size(136, 58);
             btnVehiculo.TabIndex = 4;
@@ -95,18 +96,28 @@
             // lblInformacion
             // 
             lblInformacion.AutoSize = true;
-            lblInformacion.Location = new Point(285, 88);
+            lblInformacion.Location = new Point(321, 88);
             lblInformacion.Name = "lblInformacion";
             lblInformacion.Size = new Size(165, 20);
             lblInformacion.TabIndex = 5;
             lblInformacion.Text = " Seleccione Un Servicio:";
+            // 
+            // btnViaje
+            // 
+            btnViaje.Location = new Point(658, 156);
+            btnViaje.Name = "btnViaje";
+            btnViaje.Size = new Size(136, 57);
+            btnViaje.TabIndex = 6;
+            btnViaje.Text = "Viaje";
+            btnViaje.UseVisualStyleBackColor = true;
             // 
             // frmlogin
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.InactiveBorder;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(832, 450);
+            Controls.Add(btnViaje);
             Controls.Add(lblInformacion);
             Controls.Add(btnVehiculo);
             Controls.Add(btnRecaudacion);
@@ -115,6 +126,7 @@
             Controls.Add(lblTitulo);
             Name = "frmlogin";
             Text = "Login Transporte Publico";
+            Load += frmlogin_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -127,5 +139,6 @@
         private Button btnRecaudacion;
         private Button btnVehiculo;
         private Label lblInformacion;
+        private Button btnViaje;
     }
 }

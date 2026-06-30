@@ -22,17 +22,28 @@ namespace Negocios
             {
                 return "Error: Todos los campos son obligatorios";
             }
-
-            if (c.Cedula.Length<13)
+            if (c.Licencia.Length != 10 )
             {
-                return "Error: Faltan caracteres.";
+                return "Error: Faltan caracteres (formato L-00000000).";
             }
-
+            if (c.Cedula.Length != 13)
+            {
+                return "Error: La cédula debe tener 13 caracteres (formato 000-0000000-0).";
+            }
 
             bool ok = _dal.Insertar1(c);
             return ok ? "Chofer Registrado Exitosamente" : "Error:No se pudo guardar en base de datos,";
         }
 
+        public string CambiarEstado(int idChofer, bool nuevoEstado)
+        {
+            if (idChofer <= 0)
+                return "Error: Chofer no válido.";
+            bool ok = _dal.CambiarEstado(idChofer, nuevoEstado);
+            string accion = nuevoEstado ? "activado" : "desactivado";
+            return ok ? $"Chofer {accion} exitosamente"
+                      : "Error: No se pudo cambiar el estado.";
+        }
         public List<chofer> Buscar(List<chofer> lista, string valor)
         {
             return lista.FindAll(c =>

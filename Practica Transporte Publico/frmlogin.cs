@@ -32,13 +32,19 @@ namespace Practica_Transporte_Publicoui
 
         private void btnChofer_Click(object sender, EventArgs e)
         {
-
+            frmChofercs frmChofercs = new frmChofercs();
+            frmChofercs.Show();
         }
 
         private void btnRutas_Click(object sender, EventArgs e)
         {
             frmRutas frmRutas = new frmRutas();
             frmRutas.Show();
+        }
+
+        private void frmlogin_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
