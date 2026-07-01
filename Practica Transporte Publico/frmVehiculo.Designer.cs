@@ -30,7 +30,6 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            DataGridView dgvTabla;
             txtBuscar = new TextBox();
             lblPlaca = new Label();
             txtPlaca = new TextBox();
@@ -47,6 +46,7 @@
             vehiculoBindingSource = new BindingSource(components);
             btnRegistrar = new Button();
             btnLimpiar = new Button();
+            dgvVehiculo = new DataGridView();
             clId = new DataGridViewTextBoxColumn();
             clPlaca = new DataGridViewTextBoxColumn();
             clModelo = new DataGridViewTextBoxColumn();
@@ -56,24 +56,15 @@
             clTipo = new DataGridViewTextBoxColumn();
             clTarifa = new DataGridViewTextBoxColumn();
             clEliminar = new DataGridViewButtonColumn();
-            dgvTabla = new DataGridView();
-            ((System.ComponentModel.ISupportInitialize)dgvTabla).BeginInit();
+            clEditar = new DataGridViewButtonColumn();
+            lblTarifa = new Label();
+            txtTarifa = new TextBox();
+            cboTipoTarifa = new ComboBox();
+            lblTarifaTipo = new Label();
+            btntarifa = new Button();
             ((System.ComponentModel.ISupportInitialize)vehiculoBindingSource).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvVehiculo).BeginInit();
             SuspendLayout();
-            // 
-            // dgvTabla
-            // 
-            dgvTabla.BackgroundColor = SystemColors.InactiveBorder;
-            dgvTabla.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvTabla.Columns.AddRange(new DataGridViewColumn[] { clId, clPlaca, clModelo, clAnio, clCapacidad, clEstado, clTipo, clTarifa, clEliminar });
-            dgvTabla.GridColor = SystemColors.Window;
-            dgvTabla.Location = new Point(12, 254);
-            dgvTabla.Name = "dgvTabla";
-            dgvTabla.RowHeadersWidth = 51;
-            dgvTabla.Size = new Size(749, 188);
-            dgvTabla.TabIndex = 14;
-            dgvTabla.CellContentClick += dgvTabla_CellContentClick;
-            dgvTabla.CellFormatting += dgvTabla_CellFormatting;
             // 
             // txtBuscar
             // 
@@ -219,6 +210,20 @@
             btnLimpiar.UseVisualStyleBackColor = false;
             btnLimpiar.Click += btnLimpiar_Click;
             // 
+            // dgvVehiculo
+            // 
+            dgvVehiculo.BackgroundColor = SystemColors.InactiveBorder;
+            dgvVehiculo.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvVehiculo.Columns.AddRange(new DataGridViewColumn[] { clId, clPlaca, clModelo, clAnio, clCapacidad, clEstado, clTipo, clTarifa, clEliminar, clEditar });
+            dgvVehiculo.GridColor = SystemColors.Window;
+            dgvVehiculo.Location = new Point(12, 288);
+            dgvVehiculo.Name = "dgvVehiculo";
+            dgvVehiculo.RowHeadersWidth = 51;
+            dgvVehiculo.Size = new Size(1056, 188);
+            dgvVehiculo.TabIndex = 14;
+            dgvVehiculo.CellContentClick += dgvVehiculo_CellContentClick;
+            dgvVehiculo.CellFormatting += dgvVehiculo_CellFormatting;
+            // 
             // clId
             // 
             clId.DataPropertyName = "idvehiculo";
@@ -295,15 +300,83 @@
             clEliminar.UseColumnTextForButtonValue = true;
             clEliminar.Width = 125;
             // 
+            // clEditar
+            // 
+            clEditar.HeaderText = "Editar";
+            clEditar.MinimumWidth = 6;
+            clEditar.Name = "clEditar";
+            clEditar.Text = "Editar";
+            clEditar.UseColumnTextForButtonValue = true;
+            clEditar.Width = 125;
+            // 
+            // lblTarifa
+            // 
+            lblTarifa.AutoSize = true;
+            lblTarifa.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTarifa.Location = new Point(740, 67);
+            lblTarifa.Name = "lblTarifa";
+            lblTarifa.Size = new Size(91, 20);
+            lblTarifa.TabIndex = 17;
+            lblTarifa.Text = "Editar Tarifa";
+            lblTarifa.Click += lblTarifa_Click;
+            // 
+            // txtTarifa
+            // 
+            txtTarifa.Location = new Point(740, 90);
+            txtTarifa.Name = "txtTarifa";
+            txtTarifa.Size = new Size(176, 27);
+            txtTarifa.TabIndex = 18;
+            txtTarifa.TextChanged += txtTarifa_TextChanged;
+            // 
+            // comboBox1
+            // 
+            cboTipoTarifa.FormattingEnabled = true;
+            cboTipoTarifa.Location = new Point(948, 89);
+            cboTipoTarifa.Name = "comboBox1";
+            cboTipoTarifa.Size = new Size(140, 28);
+            cboTipoTarifa.TabIndex = 19;
+            // 
+            // lblTarifaTipo
+            // 
+            lblTarifaTipo.AutoSize = true;
+            lblTarifaTipo.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTarifaTipo.Location = new Point(948, 66);
+            lblTarifaTipo.Name = "lblTarifaTipo";
+            lblTarifaTipo.Size = new Size(116, 20);
+            lblTarifaTipo.TabIndex = 20;
+            lblTarifaTipo.Text = "Tipo para Tarifa";
+            lblTarifaTipo.Click += lblTarifaTipo_Click;
+            // 
+            
+            // 
+            // btntarifa
+            // 
+            btntarifa.BackColor = SystemColors.HotTrack;
+            btntarifa.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btntarifa.ForeColor = SystemColors.ControlLightLight;
+            btntarifa.Location = new Point(740, 134);
+            btntarifa.Name = "btntarifa";
+            btntarifa.Size = new Size(129, 46);
+            btntarifa.TabIndex = 23;
+            btntarifa.Text = "Guardar Tarifa";
+            btntarifa.UseVisualStyleBackColor = false;
+            btntarifa.Click += btntarifa_Click;
+            // 
             // frmVehiculo
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.InactiveBorder;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1110, 528);
+            Controls.Add(btntarifa);
+           
+            Controls.Add(lblTarifaTipo);
+            Controls.Add(cboTipoTarifa);
+            Controls.Add(txtTarifa);
+            Controls.Add(lblTarifa);
             Controls.Add(btnLimpiar);
             Controls.Add(btnRegistrar);
-            Controls.Add(dgvTabla);
+            Controls.Add(dgvVehiculo);
             Controls.Add(cboTipo);
             Controls.Add(lblTipo);
             Controls.Add(lblCapacidad);
@@ -320,8 +393,8 @@
             Name = "frmVehiculo";
             Text = "Gestion de Vehiculo";
             Load += frmVehiculo_Load;
-            ((System.ComponentModel.ISupportInitialize)dgvTabla).EndInit();
             ((System.ComponentModel.ISupportInitialize)vehiculoBindingSource).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvVehiculo).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -344,7 +417,7 @@
         private Label lblTipo;
         private ComboBox cboTipo;
         private BindingSource vehiculoBindingSource;
-        private DataGridView dgvTabla;
+        private DataGridView dgvVehiculo;
         private Button btnRegistrar;
         private Button btnLimpiar;
         private DataGridViewTextBoxColumn clId;
@@ -356,5 +429,12 @@
         private DataGridViewTextBoxColumn clTipo;
         private DataGridViewTextBoxColumn clTarifa;
         private DataGridViewButtonColumn clEliminar;
+        private DataGridViewButtonColumn clEditar;
+        private Label lblTarifa;
+        private TextBox txtTarifa;
+        private ComboBox cboTipoTarifa;
+        private Label lblTarifaTipo;
+       
+        private Button btntarifa;
     }
 }

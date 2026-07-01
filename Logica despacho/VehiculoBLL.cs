@@ -17,14 +17,61 @@ namespace Negocios
             if (string.IsNullOrEmpty(v.Placa) ||
                 string.IsNullOrEmpty(v.Marca) ||
                 string.IsNullOrEmpty(v.Modelo) ||
-                (v.Anio) <=1800 || 
-               (v.Capacidad<=0))
+                string.IsNullOrEmpty(v.Tipo) ||
+                (v.Anio) <= 1800 ||
+                (v.Capacidad <= 0))
             {
                 return "Error: Todos los campos son obligatorios";
             }
+
+            VehiculoTransporteBLL vehiculoTransporte = ObtenerTipoTransporte(v.Tipo);
+            if (vehiculoTransporte == null)
+                return "Error: Tipo de vehículo no válido";
+
+            v.Tarifa = vehiculoTransporte.CalcularTarifa();
+
             bool ok = _dal.Insertar2(v);
             return ok ? "Vehiculo Registrado Exitosamente" : "Error:No se pudo guardar en base de datos,";
         }
+        public string Editar(Vehiculo v)
+        {
+            if (v.IdVehiculo <= 0)
+                return "Error: Vehículo no válido.";
+
+            if (string.IsNullOrEmpty(v.Placa) ||
+                string.IsNullOrEmpty(v.Marca) ||
+                string.IsNullOrEmpty(v.Modelo) ||
+                string.IsNullOrEmpty(v.Tipo) ||
+                (v.Anio) <= 1800 ||
+                (v.Capacidad <= 0))
+            {
+                return "Error: Todos los campos son obligatorios";
+            }
+
+            VehiculoTransporteBLL vehiculoTransporte = ObtenerTipoTransporte(v.Tipo);
+            if (vehiculoTransporte == null)
+                return "Error: Tipo de vehículo no válido";
+
+            v.Tarifa = vehiculoTransporte.CalcularTarifa();
+
+            bool ok = _dal.Actualizar(v);
+            return ok ? "Vehículo actualizado exitosamente"
+                      : "Error: No se pudo actualizar el vehículo.";
+        }
+
+        private VehiculoTransporteBLL ObtenerTipoTransporte(string tipo)
+        {
+            switch (tipo.ToLower())
+            {
+                case "guagua":
+                    return new Guagua();
+                case "voladorcito":
+                    return new Voladorcito();
+                default:
+                    return null;
+            }
+        }
+       
 
         public List<Vehiculo> Buscar(List<Vehiculo> lista, string valor)
         {
@@ -66,13 +113,19 @@ namespace Negocios
         }
         public class Guagua : VehiculoTransporteBLL
         {
+            public static  double TarifaBase { get; set; } = 135.0;
+
+           
             public override string TipoTransporte() => "Guagua";
-            public override double CalcularTarifa() => 135.0;
+            public override double CalcularTarifa() => TarifaBase;
         }
         public class Voladorcito : VehiculoTransporteBLL
         {
+            public static double TarifaBase { get; set; } = 75.0;
+
+          
             public override string TipoTransporte() => "Voladorcito";
-            public override double CalcularTarifa() => 75.0;
+            public override double CalcularTarifa() => TarifaBase;
         }
 
 

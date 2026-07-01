@@ -254,7 +254,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.MenuBar;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(804, 450);
             Controls.Add(dvgChofer);
             Controls.Add(btnRegistrar);
             Controls.Add(btnLimpiar);

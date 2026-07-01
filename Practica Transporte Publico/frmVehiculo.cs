@@ -23,35 +23,36 @@ namespace Practica_Transporte_Publicoui
         {
             InitializeComponent();
             txtBuscar.TextChanged += txtBuscar_TextChanged;
-
-
-
             cboTipo.Items.Add("Guagua");
             cboTipo.Items.Add("Voladorcito");
+
+            cboTipoTarifa.Items.Add("Guagua");
+            cboTipoTarifa.Items.Add("Voladorcito");
+
         }
 
         private void frmVehiculo_Load(object sender, EventArgs e)
         {
             CargarDatos();
         }
-        
+
         private void CargarDatos()
         {
             try
             {
                 _todas = _bll.ObtenerTodos();
-                dgvTabla.DataSource = _todas;
+                dgvVehiculo.DataSource = _todas;
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"ERROR REAL: {ex.Message}\n\nStackTrace: {ex.StackTrace}");
             }
         }
-        
+
 
         private void txtBuscar_TextChanged(object sender, EventArgs e)
         {
-            dgvTabla.DataSource = string.IsNullOrWhiteSpace(txtBuscar.Text)
+            dgvVehiculo.DataSource = string.IsNullOrWhiteSpace(txtBuscar.Text)
                 ? _todas
                 : _bll.Buscar(_todas, txtBuscar.Text);
         }
@@ -78,6 +79,7 @@ namespace Practica_Transporte_Publicoui
 
             VehiculoBLL.VehiculoTransporteBLL tipo = tipoSeleccionado switch
             {
+
                 "Guagua" => new VehiculoBLL.Guagua(),
                 "Voladorcito" => new VehiculoBLL.Voladorcito(),
                 _ => null
@@ -91,6 +93,7 @@ namespace Practica_Transporte_Publicoui
 
             var v = new Vehiculo
             {
+                IdVehiculo = _idEditando,
                 Placa = txtPlaca.Text,
                 Marca = txtMarca.Text,
                 Modelo = txtModelo.Text,
@@ -101,15 +104,23 @@ namespace Practica_Transporte_Publicoui
                 Tarifa = tipo.CalcularTarifa()
             };
 
-            string resultado = _bll.Registrar(v);
+            string resultado = _idEditando == 0
+         ? _bll.Registrar(v)
+         : _bll.Editar(v);
+
             MessageBox.Show(resultado);
 
-            if (resultado.StartsWith("Vehiculo Registrado"))
+            if (resultado.StartsWith("Vehiculo Registrado") || resultado.StartsWith("Vehículo actualizado"))
             {
                 CargarDatos();
                 btnLimpiar_Click(sender, e);
+                _idEditando = 0;
+                btnRegistrar.Text = "Registrar";
             }
         }
+
+
+
 
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
@@ -119,27 +130,46 @@ namespace Practica_Transporte_Publicoui
             txtAnio.Clear();
             txtCapacidad.Clear();
             cboTipo.SelectedIndex = -1;
+            _idEditando = 0;
+            btnRegistrar.Text = "Registrar";
         }
 
-        private void dgvTabla_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        private void dgvVehiculo_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.RowIndex < 0) return;
 
-            var v = (Vehiculo)dgvTabla.Rows[e.RowIndex].DataBoundItem;
+            var v = (Vehiculo)dgvVehiculo.Rows[e.RowIndex].DataBoundItem;
             if (v == null) return;
 
-            if (dgvTabla.Columns[e.ColumnIndex].Name == "clEstado")
+            if (dgvVehiculo.Columns[e.ColumnIndex].Name == "clEstado")
             {
                 e.Value = v.Estado ? "Desactivar" : "Activar";
             }
         }
+        private int _idEditando = 0;
 
-        private void dgvTabla_CellClick(object sender, DataGridViewCellEventArgs e)
+
+
+        private void CargarParaEditar(Vehiculo v)
+        {
+            _idEditando = v.IdVehiculo;
+            txtPlaca.Text = v.Placa;
+            txtMarca.Text = v.Marca;
+            txtModelo.Text = v.Modelo;
+            txtAnio.Text = v.Anio.ToString();
+            txtCapacidad.Text = v.Capacidad.ToString();
+            cboTipo.SelectedItem = v.Tipo;
+
+            btnRegistrar.Text = "Actualizar";
+        }
+
+
+        private void dgvVehiculo_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
 
-            var col = dgvTabla.Columns[e.ColumnIndex];
-            var v = (Vehiculo)dgvTabla.Rows[e.RowIndex].DataBoundItem;
+            var col = dgvVehiculo.Columns[e.ColumnIndex];
+            var v = (Vehiculo)dgvVehiculo.Rows[e.RowIndex].DataBoundItem;
             if (v == null) return;
 
             if (col.Name == "clEstado")
@@ -148,17 +178,62 @@ namespace Practica_Transporte_Publicoui
                 MessageBox.Show(resultado);
                 CargarDatos();
             }
-            else if (col.Name == "clEliminar")
+            if (col.Name == "clEliminar")
             {
                 string resultado = _bll.Eliminar(v.IdVehiculo);
                 MessageBox.Show(resultado);
                 CargarDatos();
+
+            }
+            else if (col.Name == "clEditar")
+            {
+                CargarParaEditar(v);
             }
         }
 
-        private void dgvTabla_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void txtTarifa_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void lblTarifa_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblTarifaTipo_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btntarifa_Click(object sender, EventArgs e)
+        {
+            if (cboTipoTarifa.SelectedItem == null)
+            {
+                MessageBox.Show("Selecciona un tipo de vehículo.");
+                return;
+            }
+
+            if (!double.TryParse(txtTarifa.Text, out double nuevaTarifa) || nuevaTarifa <= 0)
+            {
+                MessageBox.Show("Ingresa un precio válido.");
+                return;
+            }
+
+            string tipoSeleccionado = cboTipoTarifa.SelectedItem.ToString();
+
+            switch (tipoSeleccionado)
+            {
+                case "Guagua":
+                    VehiculoBLL.Guagua.TarifaBase = nuevaTarifa;
+                    break;
+                case "Voladorcito":
+                    VehiculoBLL.Voladorcito.TarifaBase = nuevaTarifa;
+                    break;
+            }
+            MessageBox.Show($"Tarifa de {tipoSeleccionado} actualizada a RD${nuevaTarifa}. Los próximos vehículos usarán este precio.");
+            txtTarifa.Clear();
+            cboTipoTarifa.SelectedIndex = -1;
         }
     }
 }

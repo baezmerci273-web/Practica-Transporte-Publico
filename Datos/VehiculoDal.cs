@@ -52,7 +52,7 @@ namespace Capa_Datos
             catch (Exception ex)
             {
                 throw new ArgumentException($"Error al eliminar vehiculo: {ex.Message}");
-                return false;
+               
             }
         }
         public bool CambiarEstado(int idVehiculo, bool nuevoEstado)
@@ -70,9 +70,38 @@ namespace Capa_Datos
             }
             catch (Exception ex)
             {
-                throw new ArgumentException($"Error: {ex.Message}");
+                throw new ArgumentException($"Error: Cambio de estado fallido {ex.Message}");
+
+
             }
         }
+
+        public bool Actualizar(Vehiculo v)
+        {
+            try {
+                using (var con = Conexion.ObtenerConextion())
+                using (var cmd = new SqlCommand(@"UPDATE Vehiculo 
+                                       SET Placa=@Placa, Marca=@Marca, Modelo=@Modelo, 
+                                           Anio=@Anio, Capacidad=@Capacidad, 
+                                           Tipo=@Tipo, Tarifa=@Tarifa
+                                       WHERE IdVehiculo=@IdVehiculo", con))
+                {
+                    cmd.Parameters.AddWithValue("@Placa", v.Placa);
+                    cmd.Parameters.AddWithValue("@Marca", v.Marca);
+                    cmd.Parameters.AddWithValue("@Modelo", v.Modelo);
+                    cmd.Parameters.AddWithValue("@Anio", v.Anio);
+                    cmd.Parameters.AddWithValue("@Capacidad", v.Capacidad);
+                    cmd.Parameters.AddWithValue("@Tipo", v.Tipo);
+                    cmd.Parameters.AddWithValue("@Tarifa", v.Tarifa);
+                    cmd.Parameters.AddWithValue("@IdVehiculo", v.IdVehiculo);
+
+                    return cmd.ExecuteNonQuery() > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException($"Error: Actulizacion fallida {ex.Message}");
+        }   }
         public List<Vehiculo> ObtenerTodos2()
         {
             try
