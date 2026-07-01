@@ -15,13 +15,13 @@ namespace Datos
         public string Licencia { get; set; } = string.Empty;
         public string Telefono { get; set; } = string.Empty;
         public bool Estado { get; set; } = true;
-    
+        
 
     public chofer() { }
 
         // Constructor completo
         public chofer(int idChofer, string nombre, string apellido, string cedula,
-                      string licencia, string telefono, bool estado)
+                      string licencia, string telefono, bool estado,string tipo)
         {
             IdChofer = idChofer;
             Nombre = nombre;
@@ -30,5 +30,6 @@ namespace Datos
             Licencia = licencia;
             Telefono = telefono;
             Estado = estado;
+            
         }
 }   }

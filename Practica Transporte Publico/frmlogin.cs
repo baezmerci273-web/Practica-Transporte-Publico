@@ -27,7 +27,8 @@ namespace Practica_Transporte_Publicoui
 
         private void btnVehiculo_Click(object sender, EventArgs e)
         {
-
+            frmVehiculo frmVehiculo = new frmVehiculo();
+            frmVehiculo.Show();
         }
 
         private void btnChofer_Click(object sender, EventArgs e)

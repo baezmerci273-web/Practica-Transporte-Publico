@@ -15,12 +15,14 @@ namespace Datos
         public int Anio { get; set; } = 0;
         public int Capacidad { get; set; } = 0;
         public bool Estado { get; set; } = true;
+        public string Tipo { get; set; } = string.Empty;
+        public double Tarifa {  get; set; } = 0;
 
         public Vehiculo() { }
 
         // Constructor completo
         public Vehiculo(int idVehiculo, string placa, string marca,
-                        string modelo, int anio, int capacidad, bool estado)
+                        string modelo, int anio, int capacidad, bool estado, string tipo, double tarifa)
         {
             IdVehiculo = idVehiculo;
             Placa = placa;
@@ -29,5 +31,7 @@ namespace Datos
             Anio = anio;
             Capacidad = capacidad;
             Estado = estado;
+            Tipo= tipo;
+            Tarifa = tarifa;
         }
 }   }

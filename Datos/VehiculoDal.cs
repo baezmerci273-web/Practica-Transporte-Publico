@@ -15,7 +15,7 @@ namespace Capa_Datos
             try
             {
                 using (var con = Conexion.ObtenerConextion())
-                using (var cmd = new SqlCommand(@"INSERT INTO VEHICULO (nombre,salida,llegada,distanciaKM,estado) VALUES(@placa,@marca,@modelo,@anio,@capacidad,@Estado)", con))
+                using (var cmd = new SqlCommand(@"INSERT INTO VEHICULO (placa,marca,modelo,anio,capacidad,estado,tipo,tarifa) VALUES(@placa,@marca,@modelo,@anio,@capacidad,@Estado,@Tipo,@Tarifa)", con))
                 {
                     cmd.Parameters.AddWithValue("@placa", v.Placa);
                     cmd.Parameters.AddWithValue("@marca", v.Marca);
@@ -23,7 +23,8 @@ namespace Capa_Datos
                     cmd.Parameters.AddWithValue("@anio", v.Anio);
                     cmd.Parameters.AddWithValue("@capacidad", v.Capacidad);
                     cmd.Parameters.AddWithValue("@Estado", v.Estado);
-
+                    cmd.Parameters.AddWithValue("@Tipo", v.Tipo);
+                    cmd.Parameters.AddWithValue("@Tarifa",v.Tarifa);
                     int filas = cmd.ExecuteNonQuery();
                     return filas > 0;
 
@@ -54,6 +55,24 @@ namespace Capa_Datos
                 return false;
             }
         }
+        public bool CambiarEstado(int idVehiculo, bool nuevoEstado)
+        {
+            try
+            {
+                using (var con = Conexion.ObtenerConextion())
+                using (var cmd = new SqlCommand("UPDATE Vehiculo SET estado = @Estado WHERE idVehiculo = @IdVehiculo", con))
+                {
+                    cmd.Parameters.AddWithValue("@Estado", nuevoEstado);
+                    cmd.Parameters.AddWithValue("@IdVehiculo", idVehiculo);
+                    int filas = cmd.ExecuteNonQuery();
+                    return filas > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException($"Error: {ex.Message}");
+            }
+        }
         public List<Vehiculo> ObtenerTodos2()
         {
             try
@@ -61,7 +80,7 @@ namespace Capa_Datos
                 var lista = new List<Vehiculo>();
 
                 using (var con = Conexion.ObtenerConextion())
-                using (var cmd = new SqlCommand("SELECT idVehiculo,placa,marca,modelo,anio,capacidad,estado FROM Vehiculo", con))
+                using (var cmd = new SqlCommand("SELECT idVehiculo,placa,marca,modelo,anio,capacidad,estado,tipo,tarifa FROM Vehiculo", con))
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
@@ -74,7 +93,9 @@ namespace Capa_Datos
                             Modelo = reader.GetString(3),
                             Anio = reader.GetInt32(4),
                             Capacidad = reader.GetInt32(5),
-                            Estado = reader.GetBoolean(6)
+                            Estado = reader.GetBoolean(6),
+                            Tipo = reader.IsDBNull(7) ? "Sin especificar" : reader.GetString(7),
+                            Tarifa = reader.IsDBNull(8) ? 0 : (double)reader.GetDecimal(8)
                         });
 
 

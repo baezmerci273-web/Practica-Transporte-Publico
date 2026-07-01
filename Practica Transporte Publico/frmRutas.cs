@@ -37,16 +37,14 @@ namespace Practica_Transporte_Publicoui
             CargarDatos();
         }
 
-
+     
         private void CargarDatos()
-            {
-                _todas = _bll.ObtenerTodos();
-                dgvTabla.DataSource = chkActivas.Checked
-                    ? _bll.ObtenerActivas()
-                    : _todas;
-            }
+        {
+            _todas = _bll.ObtenerTodos();
+            dgvTabla.DataSource =  _todas;
+        }
 
-            private void txtBuscar_TextChanged(object sender, EventArgs e)
+        private void txtBuscar_TextChanged(object sender, EventArgs e)
             {
                 if (string.IsNullOrWhiteSpace(txtBuscar.Text))
                     dgvTabla.DataSource = chkActivas.Checked ? _bll.ObtenerActivas() : _todas;

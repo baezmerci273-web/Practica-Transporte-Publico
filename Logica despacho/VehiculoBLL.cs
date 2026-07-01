@@ -38,7 +38,15 @@ namespace Negocios
                 (esNumero && v.Capacidad == numero)
             );
         }
-
+        public string CambiarEstado(int idVehiculo, bool nuevoEstado)
+        {
+            if (idVehiculo <= 0)
+                return "Error: Vehículo no válido.";
+            bool ok = _dal.CambiarEstado(idVehiculo, nuevoEstado);
+            string accion = nuevoEstado ? "activado" : "desactivado";
+            return ok ? $"Vehículo {accion} exitosamente"
+                      : "Error: No se pudo cambiar el estado.";
+        }
         public string Eliminar(int idVehiculo)
         {
             if (idVehiculo <= 0)

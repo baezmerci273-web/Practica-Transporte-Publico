@@ -40,6 +40,7 @@ namespace Practica_Transporte_Publicoui
             CargarDatos();
         }
 
+       
 
         private void Cedula_KeyPress(object sender, KeyPressEventArgs e)
         {
