@@ -47,5 +47,16 @@ namespace Practica_Transporte_Publicoui
         {
 
         }
+
+        private void btnViaje_Click(object sender, EventArgs e)
+        {
+            frmViaje frmViaje = new frmViaje();
+            frmViaje.Show();
+        }
+
+        private void btnRecaudacion_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

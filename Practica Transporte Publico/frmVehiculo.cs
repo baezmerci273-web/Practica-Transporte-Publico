@@ -45,7 +45,7 @@ namespace Practica_Transporte_Publicoui
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"ERROR REAL: {ex.Message}\n\nStackTrace: {ex.StackTrace}");
+                MessageBox.Show($"ERROR REAL: {ex.Message} StackTrace: {ex.StackTrace}");
             }
         }
 

@@ -16,7 +16,7 @@ namespace Capa_Datos
             try
             {
                 using (var con = Conexion.ObtenerConextion())
-                using (var cmd = new SqlCommand(@"INSERT INTO Viaje (idRutas,idChofer,idVehiculo,horaSalida,horaLlegada,estado,cantidadPasajeros) 
+                using (var cmd = new SqlCommand(@"INSERT INTO Viaje (idRutas,idChofer,idVehiculo,horaSalida,horaLlegada,estado,CantidadPasajeros) 
                                   VALUES(@IdRutas,@IdChofer,@IdVehiculo,@HoraSalida,@HoraLlegada,@Estado,@CantidadPasajeros)", con))
                     
                 {
@@ -26,7 +26,7 @@ namespace Capa_Datos
                     cmd.Parameters.AddWithValue("@horaSalida", viaje.HoraSalida);
                     cmd.Parameters.AddWithValue("@horaLlegada", viaje.HoraLlegada);
                     cmd.Parameters.AddWithValue("@Estado", viaje.Estado);
-                    cmd.Parameters.AddWithValue(@"CantidadPasajeros", viaje.CantidadPasajeros);
+                    cmd.Parameters.AddWithValue("@CantidadPasajeros", viaje.CantidadPasajeros);
 
                     int filas = cmd.ExecuteNonQuery();
                     return filas > 0;
@@ -54,7 +54,7 @@ namespace Capa_Datos
             catch (Exception ex)
             {
                 throw new ArgumentException($"Error al eliminar viaje: {ex.Message}");
-                return false;
+                
             }
         }
 
@@ -65,7 +65,7 @@ namespace Capa_Datos
                 var lista = new List<Viaje>();
 
                 using (var con = Conexion.ObtenerConextion())
-                using (var cmd = new SqlCommand("SELECT idVehiculo,placa,marca,modelo,anio,capacidad,estado,CantidadPasajeros FROM Vehiculo", con))
+                using (var cmd = new SqlCommand("SELECT idViaje,idRutas,idChofer,idVehiculo,horaSalida,horaLlegada,estado,CantidadPasajeros FROM Viaje", con))
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
@@ -78,7 +78,7 @@ namespace Capa_Datos
                             IdVehiculo = reader.GetInt32(3),
                             HoraSalida = reader.GetDateTime(4),
                             HoraLlegada = reader.GetDateTime(5),
-                            Estado = reader.GetString(6),
+                            Estado = reader.IsDBNull(6) ? "Pendiente" : reader.GetString(6),
                             CantidadPasajeros = reader.GetInt32(7)
 
                         });

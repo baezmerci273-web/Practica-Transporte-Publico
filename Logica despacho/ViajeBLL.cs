@@ -62,19 +62,23 @@ namespace Negocios
                       : "Error: No se pudo eliminar el viaje.";
         }
 
-        public string RegistrarViaje(Viaje viaje)
-        {
-            return Registrar(viaje); // validacion de arriba
-        }
 
-        public string AsignarChofer(Viaje viaje, int idChofer)
+
+        public string AsignarChofer(Viaje viaje, List<chofer> choferes, int idChofer)
         {
             if (idChofer <= 0)
                 return "Error: Chofer inválido";
 
-            viaje.IdChofer = idChofer;
-            return "Chofer asignado correctamente";
+            chofer choferEncontrado = choferes.FirstOrDefault(c => c.IdChofer == idChofer);
+
+            if (choferEncontrado == null)
+                return "Error: Chofer no encontrado";
+
+            viaje.IdChofer = choferEncontrado.IdChofer;
+            return $"Chofer {choferEncontrado.Nombre} {choferEncontrado.Apellido} asignado correctamente";
         }
+
+         
         public double CalcularRendimiento(Viaje viaje)
         {
             if (viaje.CantidadPasajeros <= 0)
@@ -87,7 +91,7 @@ namespace Negocios
 
             return viaje.CantidadPasajeros / duracionHoras; // pasajeros por hora
         }
-        public List<Viaje> ObtenerTodos()
+        public List<Viaje> ObtenerTodos2()
         {
             return _dal.ObtenerTodos2();
         }
